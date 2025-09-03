@@ -1,0 +1,95 @@
+<template>
+  <lightning-card title={title} icon-name="custom:custom14">
+  <div class="slds-p-around_medium">
+
+    <!-- Two-column layout -->
+    <div class="slds-grid slds-gutters slds-wrap two-col">
+
+      <!-- LEFT: Input + Button + Error + Info -->
+      <div class="slds-col left-col">
+        
+        <!-- Centered input, fixed width -->
+        <div class="slds-grid slds-grid_align-center">
+          <div class="fixed-width">
+            <lightning-input
+              type="text"
+              label="South African ID Number"
+              value={idNumber}
+              maxlength="13"
+              message-when-bad-input="Enter 13 digits"
+              onchange={handleInput}
+              oninput={handleInput}>
+            </lightning-input>
+          </div>
+        </div>
+
+        <!-- Centered button -->
+        <div class="slds-m-top_small slds-grid slds-grid_align-center">
+          <lightning-button
+            variant="brand"
+            label="Search"
+            onclick={handleSearch}
+            disabled={isButtonDisabled}>
+          </lightning-button>
+        </div>
+
+        <!-- Error -->
+        <template if:true={error}>
+          <div class="slds-notify slds-notify_alert slds-alert_error slds-m-top_small" role="alert">
+            <span class="slds-assistive-text">Error</span>
+            <h2>{error}</h2>
+          </div>
+        </template>
+
+        <!-- Info Panel -->
+        <template if:true={info}>
+          <div class="slds-grid slds-grid_align-center slds-m-top_medium">
+            <div class="info-panel slds-box">
+              <p><b>ID:</b> {info.idNumber}</p>
+              <p><b>Date of Birth:</b> {info.dateOfBirth}</p>
+              <p><b>Gender:</b> {info.gender}</p>
+              <p><b>Citizen:</b>
+                <template if:true={info.isCitizen}>Yes</template>
+                <template if:false={info.isCitizen}>No</template>
+              </p>
+            </div>
+          </div>
+        </template>
+      </div>
+
+    <!-- RIGHT: Holidays sidebar -->
+    <div class="slds-col right-col">
+    <h3 class="slds-m-bottom_small slds-text-heading_small slds-text-align_center title-holidays">
+        Holidays
+    </h3>
+
+    <!-- Scrollable list -->
+    <div class="scroll-panel slds-scrollable_y slds-p-around_small" tabindex="0" role="region" aria-label="Holidays list">
+        <template if:true={holidaysWithKey}>
+        <ul class="slds-m-around_none holidays-list">
+            <template for:each={holidaysWithKey} for:item="h">
+            <li key={h.rowKey} class="holiday-item">
+                <div class="slds-grid slds-wrap slds-gutters_small">
+                <div class="slds-col slds-size_1-of-3"><b>{h.dateIso}</b></div>
+                <div class="slds-col slds-size_1-of-3">{h.name}</div>
+                <div class="slds-col slds-size_1-of-3">{h.type}</div>
+                </div>
+                <div class="slds-text-color_weak slds-m-top_xx-small">{h.description}</div>
+            </li>
+            </template>
+        </ul>
+        </template>
+
+        <!-- Empty state -->
+        <template if:false={holidaysWithKey}>
+        <div class="slds-text-color_inverse slds-text-align_center slds-p-vertical_medium">
+            Enter an ID and click Search to see holidays.
+        </div>
+        </template>
+    </div>
+    </div>
+
+    </div>
+  </div>
+</lightning-card>
+</template>
