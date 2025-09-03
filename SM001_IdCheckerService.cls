@@ -6,7 +6,7 @@
  */
 public inherited sharing class SM001_IdCheckerService {
 
-    // Step 1: Decode and Save/Update (no callouts here)
+    // Decode and Save/Update (no callouts here)
     public static WRP_Types.IdResult decodeAndSave(String idNumber) {
         WRP_Types.IdResult res = new WRP_Types.IdResult();
 
@@ -30,11 +30,11 @@ public inherited sharing class SM001_IdCheckerService {
         }
         DM001_SAIdRecord.upsertRecords(new List<SAIdRecord__c>{ toUpsert });
 
-        // Holidays intentionally NOT fetched here (separate call/transaction)
+        // Holidays intentionally NOT fetched here (separate call)
         return res;
     }
 
-    // Step 2: Fetch holidays (callout only)
+    // Fetch holidays (callout only)
     public static List<WRP_Types.Holiday> fetchZAHolidaysByYear(Integer year) {
         if (year == null) return new List<WRP_Types.Holiday>();
         return WS001_CalendarificService.getZAHolidays(year);
