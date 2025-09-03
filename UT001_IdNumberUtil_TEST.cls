@@ -48,7 +48,6 @@ private class UT001_IdNumberUtil_TEST {
         // 2000 is a leap year (divisible by 400) -> 00-02-29
         // Construct a synthetic that passes Luhn:
         // Take a base "000229" + female block "0001" + citizen 0 + A=8 + checksum X;
-        // Assert strict validator accepts 2000-02-29 when Luhn passes.
         // Precomputed valid ID for 2000-02-29 female citizen:
         UT001_IdNumberUtil.DecodedId d = UT001_IdNumberUtil.decode('0002290001087'); 
         if (d.valid) {
@@ -56,13 +55,13 @@ private class UT001_IdNumberUtil_TEST {
             System.assertEquals('Female', d.gender);
             System.assertEquals(true, d.isCitizen);
         } else {
-            // If this particular 13-digit doesn't pass Luhn, the core check still runs:
+            // If 13-digit doesn't pass Luhn, the core check still runs:
             System.assertNotEquals('Invalid birth date', d.message, 'Even if Luhn fails, DOB should be considered valid date.');
         }
     }
 
     @IsTest static void testLuhnHelper() {
-        // Classic Luhn sequence sanity
+        // Luhn sequence
         System.assertEquals(true, UT001_IdNumberUtil.luhnValid('79927398713'));
         System.assertEquals(false, UT001_IdNumberUtil.luhnValid('79927398714'));
     }
