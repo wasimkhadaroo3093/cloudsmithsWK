@@ -53,7 +53,7 @@ public inherited sharing class WS001_CalendarificService {
                 for (Object tv : t) item.type.add((String) tv);
             }
 
-            // Keep banking/public (and national) per story
+            // Keep banking/public (and national)
             if (item.type == null || item.type.isEmpty()) {
                 out.add(item);
             } else {
