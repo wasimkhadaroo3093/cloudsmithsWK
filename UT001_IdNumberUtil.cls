@@ -1,5 +1,5 @@
 /**
- * @author WK
+ * @author Wasim Khadaroo
  * @date 2025-09-02
  * @group Utils
  * @description SA ID validation/decoding (date, gender, citizenship) + strict Luhn and DOB checks.
@@ -20,7 +20,6 @@ public without sharing class UT001_IdNumberUtil {
         DecodedId out = new DecodedId();
         out.idNumber = raw;
 
-        // Basic guards
         if (String.isBlank(raw)) {
             out.valid = false; out.message = 'ID is blank'; return out;
         }
@@ -30,17 +29,17 @@ public without sharing class UT001_IdNumberUtil {
         if (id == null || id.length() != 13) {
             out.valid = false; out.message = 'ID must be 13 digits'; return out;
         }
-        // Ensure all numeric (parse will throw if not numeric)
+        // Ensure all numeric
         try { Long.valueOf(id); } catch (Exception e) {
             out.valid = false; out.message = 'ID must contain only digits'; return out;
         }
 
-        // Parse YYMMDD parts
+        // Parse YYMMDD
         Integer yy = Integer.valueOf(id.substring(0, 2));
         Integer mm = Integer.valueOf(id.substring(2, 4));
         Integer dd = Integer.valueOf(id.substring(4, 6));
 
-        // Resolve century
+        // Century
         Integer currYY = Math.mod(Date.today().year(), 100);
         Integer century = (yy <= currYY) ? 2000 : 1900;
         Integer yyyy = century + yy;
@@ -55,7 +54,6 @@ public without sharing class UT001_IdNumberUtil {
             out.valid = false; out.message = 'Invalid birth date'; return out;
         }
 
-        // Safe to construct
         try {
             out.dateOfBirth = Date.newInstance(yyyy, mm, dd);
         } catch (Exception e) {
