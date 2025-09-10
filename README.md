@@ -9,8 +9,6 @@ The project demonstrates:
 
 - LWC frontend styled with South African flag colors.
 
-- Public site deployment (accessible without login).
-
 - Full unit testing with mocked callouts.
 
 Architecture
